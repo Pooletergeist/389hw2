@@ -1,6 +1,17 @@
-ggplot(data=data1, aes(x=size, y=time)) + geom_line(color="blue") + geom_point() + xlab("number of objects") + ylab("mean time to update (us)") + labs(title="Python Masstronauts Update Benchmark. Mean time for coordinate update vs. number of objects") + guides(color = guide_none()) 
+## makes some plots
 
-ggplot(data=data, aes(x=size, y=time)) + geom_line(aes(color=language)) + geom_point() + xlab("number of objects") + ylab("mean time to update (us)") + labs(title="Masstronauts Update Benchmark. Mean time for coordinate update vs. number of objects")
+data <- read.csv("typeC_benchmark.csv")
 
+require(ggplot2)
+require(dplyr)
 
+data <- filter(data, time>0) # clock monotonic resets can mess up timing
 
+p <- ggplot(data=data, aes(x=size, y=time)) +
+    geom_line(aes(color=type)) +
+    geom_point(aes(color=type)) +
+    xlab("number of objects") +
+    ylab("mean time to update coordinates (microseconds)") +
+    labs(title="Masstronauts Benchmark. mean time to update vs. numObjects for C numeric types")
+
+print(p)
